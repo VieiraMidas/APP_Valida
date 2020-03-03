@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean insert(String nome, String cpf, String rg, String telefone, String email, String senha) {
         SQLiteDatabase db = this.getWritableDatabase();
 
+        //ContentValues é quem pega as informações da tabela interna para colocar no Banco de Dados
         ContentValues contentValues = new ContentValues();
         contentValues.put("nome", nome);
         contentValues.put("cpf", cpf);
@@ -36,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("senha", senha);
 
         long inserido = db.insert("tbUsuario", null, contentValues);
+        //nullColumnHack é o parâmetro que define o que será adicionado, caso nada seja colocado
 
         if (inserido == 1) {
             return false;
@@ -47,6 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean validarCPF(String cpf) {
         SQLiteDatabase db = getReadableDatabase();
 
+        //Para converter algum tipo diferente de String basta utilizar convert.toString("nome_da_variável")
         Cursor cursor = db.rawQuery("select * from tbUsuario where cpf = ?", new String[]{cpf});
         if (cursor.getCount() > 0) {
             return false;
